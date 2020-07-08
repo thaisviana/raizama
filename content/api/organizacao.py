@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 from django.conf import settings
-from ..models import Produtor, Tipo
+from ..models import Organizacao, Tipo
 from django.db import models
 
 
@@ -9,10 +9,10 @@ class TipoSerializer(serializers.ModelSerializer):
         model = Tipo
         fields = ('nome','descricao')
 
-class ProdutorSerializer(serializers.ModelSerializer):
+class OrganizacaoSerializer(serializers.ModelSerializer):
     tipo = TipoSerializer(many=True, required=False, allow_null=True)
     class Meta:
-        model = Produtor
+        model = Organizacao
         fields = ('tipo','nome','razao_social','cnpj','descricao')
 
     def create(self, validated_data):
@@ -22,11 +22,11 @@ class ProdutorSerializer(serializers.ModelSerializer):
             for tipoData in tipos_data:
                 tipo, created = Tipo.objects.get_or_create(nome=tipoData['nome'])
                 tipos_list.append(tipo)
-        produtor =  Produtor.objects.create(**validated_data)
+        organizacao =  Organizacao.objects.create(**validated_data)
         if tipos_list:
-            produtor.tipo.set(tipos_list)
-        produtor.save()
-        return produtor
+            organizacao.tipo.set(tipos_list)
+        organizacao.save()
+        return organizacao
     
     def update(self, instance, validated_data):
         tipos_data = validated_data.pop('tipo')
@@ -44,8 +44,8 @@ class ProdutorSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ProdutorViewSet(viewsets.ModelViewSet):
-    queryset = Produtor.objects.all()
-    serializer_class = ProdutorSerializer
+class OrganizacaoViewSet(viewsets.ModelViewSet):
+    queryset = Organizacao.objects.all()
+    serializer_class = OrganizacaoSerializer
     #permission_classes = (AllowAny,)
 
