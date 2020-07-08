@@ -2,9 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 
-class Produtor(models.Model):
+class Organizacao(models.Model):
     tipo = models.ManyToManyField(
-        'Tipo', related_name='produtor_tipo', blank=True)
+        'Tipo', related_name='organizacao_tipo', blank=True)
     nome = models.CharField(max_length=40, blank=True, null=True)
     razao_social = models.CharField(max_length=40)
     cnpj = models.CharField(max_length=40,blank=True, null=True)
