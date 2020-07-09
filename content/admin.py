@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Content, Organizacao, Tipo
+from .models import Content, Organizacao, Tipo, Produto, Categoria
 from adminsortable.admin import SortableAdmin
 
 
@@ -10,3 +10,6 @@ class ContentAdmin(SortableAdmin):
 admin.site.register(Content, ContentAdmin)
 admin.site.register(Organizacao)
 admin.site.register(Tipo)
+admin.site.register(Produto)
+admin.site.register(Categoria)
+
