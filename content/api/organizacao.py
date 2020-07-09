@@ -35,7 +35,7 @@ class OrganizacaoSerializer(serializers.ModelSerializer):
             tipo, created = Tipo.objects.get_or_create(nome=tipoData['nome'])
             tipos_list.append(tipo)
         instance.descricao = validated_data['descricao']
-        instace.nome = validated_data['nome']
+        instance.nome = validated_data['nome']
         instance.razao_social = validated_data['razao_social']
         instance.cnpj = validated_data['cnpj']
         if tipos_list:
