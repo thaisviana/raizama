@@ -7,13 +7,13 @@ from django.db import models
 class TipoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tipo
-        fields = ('nome','descricao')
+        fields = ('nome', 'descricao')
 
 class OrganizacaoSerializer(serializers.ModelSerializer):
     tipo = TipoSerializer(many=True, required=False, allow_null=True)
     class Meta:
         model = Organizacao
-        fields = ('tipo','nome','razao_social','cnpj','descricao')
+        fields = ('tipo', 'subtipo', 'nome','razao_social','cnpj','descricao', 'endereco', 'telefone', 'email', 'site', 'instagram', 'facebook', 'tipo_de_porte', 'fins_lucrativos', 'transparencia_financeira', 'vinculo_com_grandes_corporacoes', 'vinculo_com_organizacoes_sociais', 'data_criacao')
 
     def create(self, validated_data):
         tipos_data = validated_data.pop('tipo', None)
@@ -22,7 +22,7 @@ class OrganizacaoSerializer(serializers.ModelSerializer):
             for tipoData in tipos_data:
                 tipo, created = Tipo.objects.get_or_create(nome=tipoData['nome'])
                 tipos_list.append(tipo)
-        organizacao =  Organizacao.objects.create(**validated_data)
+        organizacao = Organizacao.objects.create(**validated_data)
         if tipos_list:
             organizacao.tipo.set(tipos_list)
         organizacao.save()
@@ -35,7 +35,7 @@ class OrganizacaoSerializer(serializers.ModelSerializer):
             tipo, created = Tipo.objects.get_or_create(nome=tipoData['nome'])
             tipos_list.append(tipo)
         instance.descricao = validated_data['descricao']
-        instace.nome = validated_data['nome']
+        instance.nome = validated_data['nome']
         instance.razao_social = validated_data['razao_social']
         instance.cnpj = validated_data['cnpj']
         if tipos_list:
